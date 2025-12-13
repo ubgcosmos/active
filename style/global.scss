@@ -1,22 +1,110 @@
 @use "variables" as *;
 
+// Cosmic Theme Variables
+$cosmic-deep-space: #0a0e27;
+$cosmic-dark-purple: #1a1535;
+$cosmic-purple: #6b2f8f;
+$cosmic-blue: #2d4a8f;
+$cosmic-bright-purple: #9d4edd;
+$cosmic-bright-blue: #4cc9f0;
+$cosmic-accent-pink: #f72585;
+$cosmic-nebula: #7209b7;
+$cosmic-text: #e8e8f0;
+
 body {
-  background-color: $background-color;
-  color: $text-color;
+  background: linear-gradient(135deg, $cosmic-deep-space 0%, $cosmic-dark-purple 50%, #2d1b4e 100%);
+  color: $cosmic-text;
   font-family: "DM Sans", sans-serif;
   text-align: center;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+
+  // Animated Cosmic Background
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(ellipse at 20% 30%, rgba(157, 78, 221, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(76, 201, 240, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(107, 47, 143, 0.1) 0%, transparent 60%);
+    z-index: -1;
+    animation: cosmicShift 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  // Starfield Effect
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(2px 2px at 20% 30%, white, transparent),
+      radial-gradient(2px 2px at 60% 70%, white, transparent),
+      radial-gradient(1px 1px at 50% 50%, white, transparent),
+      radial-gradient(1px 1px at 80% 10%, white, transparent),
+      radial-gradient(2px 2px at 90% 60%, white, transparent),
+      radial-gradient(1px 1px at 10% 80%, rgba(157, 78, 221, 0.8), transparent),
+      radial-gradient(1px 1px at 70% 20%, rgba(76, 201, 240, 0.8), transparent);
+    background-size: 200% 200%;
+    animation: stars 60s linear infinite;
+    opacity: 0.6;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+@keyframes cosmicShift {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1) rotate(0deg); 
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.1) rotate(5deg); 
+  }
+}
+
+@keyframes stars {
+  from { background-position: 0 0; }
+  to { background-position: -200% -200%; }
 }
 
 h1 {
   font-size: 2.5em;
   margin-bottom: 20px;
+  background: linear-gradient(90deg, $cosmic-bright-purple, $cosmic-bright-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(157, 78, 221, 0.5));
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { filter: drop-shadow(0 0 30px rgba(157, 78, 221, 0.5)); }
+  50% { filter: drop-shadow(0 0 50px rgba(76, 201, 240, 0.7)); }
 }
 
 nav {
-  background: #1e1e1e;
-  border-radius: 8px;
+  background: rgba(26, 21, 53, 0.8);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(157, 78, 221, 0.3);
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(157, 78, 221, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 ul {
@@ -24,6 +112,7 @@ ul {
   padding: 0;
   display: flex;
   gap: 10px;
+  margin: 0;
 }
 
 li {
@@ -31,26 +120,78 @@ li {
 }
 
 a {
-  color: $accent;
+  color: $cosmic-bright-purple;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, $cosmic-bright-purple, $cosmic-bright-blue);
+    transition: width 0.3s ease;
+  }
+
+  &:hover {
+    color: $cosmic-bright-blue;
+    text-shadow: 0 0 15px rgba(76, 201, 240, 0.6);
+
+    &::after {
+      width: 100%;
+    }
+  }
 }
 
 button {
   display: inline-block;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1.2em;
   padding: 12px 22px;
-  border: 2px solid #3a3a3a;
-  border-radius: 5px;
-  transition: 0.25s;
-  background: rgba(35, 35, 35);
-}
+  border: 2px solid rgba(157, 78, 221, 0.4);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, rgba(107, 47, 143, 0.4), rgba(45, 74, 143, 0.4));
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 
-button:hover {
-  color: #ffffff;
-  background-color: $accent;
-  border-color: $accent;
-  transform: translateY(-3px);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  &:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, $cosmic-bright-purple, $cosmic-bright-blue);
+    border-color: $cosmic-bright-blue;
+    transform: translateY(-3px);
+    box-shadow: 
+      0 10px 30px rgba(157, 78, 221, 0.5),
+      0 0 40px rgba(76, 201, 240, 0.3);
+
+    &::before {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
 }
 
 .flex-horiz {
@@ -77,41 +218,78 @@ button:hover {
   z-index: -1;
 }
 
+// Cosmic Scrollbar
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
+
 ::-webkit-scrollbar-track {
-  background: $accent-dark;
+  background: rgba(26, 21, 53, 0.8);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $accent-light;
-  border-radius: 10px 0 0 10px;
-}
+  background: linear-gradient(180deg, $cosmic-bright-purple, $cosmic-bright-blue);
+  border-radius: 10px;
+  border: 2px solid rgba(26, 21, 53, 0.8);
 
-::-webkit-scrollbar-thumb:hover {
-  background: $text-color;
+  &:hover {
+    background: linear-gradient(180deg, $cosmic-bright-blue, $cosmic-bright-purple);
+    box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
+  }
 }
 
 .greenCircle {
   height: 15px;
   width: 15px;
-  background-color: lightgreen;
+  background: linear-gradient(135deg, #4cc9f0, #90ee90);
   border-radius: 100%;
+  box-shadow: 0 0 15px rgba(76, 201, 240, 0.6);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.6);
+  }
+  50% { 
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(76, 201, 240, 0.9);
+  }
 }
 
 #logo {
   width: 20%;
+  filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.6));
+  transition: filter 0.3s ease;
+
+  &:hover {
+    filter: drop-shadow(0 0 30px rgba(76, 201, 240, 0.8));
+  }
 }
 
 .title {
   font-family: "Good Timing Rg", "DM Sans", sans-serif;
   height: 50px;
   font-size: 50px;
+  background: linear-gradient(90deg, $cosmic-bright-purple, $cosmic-bright-blue, $cosmic-bright-purple);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: cosmicTextFlow 4s linear infinite;
+  filter: drop-shadow(0 0 40px rgba(157, 78, 221, 0.5));
+}
+
+@keyframes cosmicTextFlow {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
 
 .accent {
-  color: #ed1c24;
+  color: $cosmic-bright-purple;
+  text-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
 }
 
 footer {
@@ -119,9 +297,13 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  color: #ffffff;
+  color: $cosmic-text;
   text-align: center;
-  padding: 4px 0;
+  padding: 8px 0;
+  background: rgba(26, 21, 53, 0.8);
+  backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(157, 78, 221, 0.3);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .gridContainer {
@@ -131,11 +313,22 @@ footer {
   gap: 20px;
   padding: 20px;
   margin-left: 65px;
-}
 
-.gridContainer .item {
-  padding: 10px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(10px);
+  .item {
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(26, 21, 53, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(157, 78, 221, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      border-color: rgba(157, 78, 221, 0.6);
+      box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(157, 78, 221, 0.4);
+      transform: translateY(-4px);
+    }
+  }
 }
